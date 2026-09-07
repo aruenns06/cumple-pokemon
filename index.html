@@ -5,160 +5,79 @@
 <title>Caza Pokémon</title>
 
 <style>
-
-*{
-    box-sizing:border-box;
-}
-
 body{
-    font-family:'Segoe UI',sans-serif;
-    margin:0;
-    padding:16px;
-    background:linear-gradient(180deg,#ffde59,#ffcb05);
-    min-height:100vh;
-}
-
-h1{
-    text-align:center;
-    color:#2a75bb;
-    margin-bottom:20px;
-    font-size:2rem;
-}
-
-#uploadZone{
-    text-align:center;
-    margin-bottom:20px;
-}
-
-#uploadZone input{
-    width:100%;
-    max-width:350px;
-    padding:12px;
-    border-radius:12px;
-    background:white;
-}
-
-#progress{
-    background:white;
-    border-radius:16px;
-    padding:15px;
-    text-align:center;
-    font-size:1.2rem;
-    font-weight:bold;
-    margin-bottom:20px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.12);
-}
-
-.gallery{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:18px;
+    font-family:Arial,sans-serif;
+    padding:20px;
 }
 
 .card{
-    background:white;
-    border-radius:22px;
-    overflow:hidden;
-    box-shadow:0 8px 20px rgba(0,0,0,0.15);
-    transition:all .3s ease;
+    border:1px solid #ccc;
+    padding:10px;
+    margin-bottom:20px;
+    width:300px;
 }
 
-.card:hover{
-    transform:translateY(-2px);
+img{
+    width:300px;
 }
 
-.card.found{
-    background:#dff9e4;
-    border:3px solid #34c759;
-}
-
-.card img{
-    width:100%;
-    height:260px;
-    object-fit:cover;
-}
-
-.card-content{
-    padding:15px;
-}
-
-.card h3{
-    margin:0 0 12px;
-    color:#2a75bb;
-    font-size:1.3rem;
-}
-
-button{
-    width:100%;
-    border:none;
-    border-radius:14px;
-    padding:15px;
-    font-size:1rem;
+#contador{
+    font-size:24px;
     font-weight:bold;
-    cursor:pointer;
-    transition:.2s;
-    background:#ff3b30;
-    color:white;
+    margin-bottom:30px;
 }
-
-button:hover{
-    transform:scale(1.02);
-}
-
-button.found{
-    background:#34c759;
-}
-
-#victory{
-    display:none;
-    margin-top:25px;
-    padding:20px;
-    background:white;
-    border-radius:20px;
-    text-align:center;
-    color:#34c759;
-    font-size:1.7rem;
-    font-weight:bold;
-    box-shadow:0 4px 15px rgba(0,0,0,0.15);
-}
-
-@media(min-width:700px){
-
-    .gallery{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-}
-
-@media(min-width:1000px){
-
-    .gallery{
-        grid-template-columns:repeat(3,1fr);
-    }
-
-}
-
 </style>
-
 
 </head>
 <body>
 
 <h1>🔍 Caza Pokémon 🔍</h1>
 
+<div id="contador">
+0 / 2 Pokémon encontrados
+</div>
+
 <div class="card">
-    <img src="pokemon1.jpg">
+    <img src="pokemon01.jpg">
     <br><br>
-    <input type="checkbox">
+    <input type="checkbox" class="pokemon">
     Encontrado
 </div>
 
 <div class="card">
-    <img src="pokemon2.jpg">
+    <img src="jpg
     <br><br>
-    <input type="checkbox">
+    <input type="checkbox" class="pokemon">
     Encontrado
 </div>
+
+<script>
+
+const checks = document.querySelectorAll(".pokemon");
+
+function actualizarContador(){
+
+    let encontrados = 0;
+
+    checks.forEach(check => {
+
+        if(check.checked){
+            encontrados++;
+        }
+
+    });
+
+    document.getElementById("contador").innerText =
+        encontrados + " / " + checks.length + " Pokémon encontrados";
+}
+
+checks.forEach(check => {
+
+    check.addEventListener("change", actualizarContador);
+
+});
+
+</script>
 
 </body>
 </html>
