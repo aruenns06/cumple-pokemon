@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Caza Pokémon 🎉</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f4f4;
+    margin:0;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+}
+
+.progress{
+    text-align:center;
+    font-size:1.3rem;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border-radius:12px;
+    padding:12px;
+    box-shadow:0 0 10px rgba(0,0,0,.15);
+    text-align:center;
+}
+
+.card img{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+    border-radius:8px;
+}
+
+.found{
+    background:#d7ffd7;
+    border:3px solid #3bb143;
+}
+
+#victory{
+    display:none;
+    text-align:center;
+    font-size:2rem;
+    color:green;
+    margin-top:30px;
+}
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas.3/dist/confetti.browser.min.jsscript>
+
+</head>
+<body>
+
+<h1>🎉 Encuentra todos los Pokémon 🎉</h1>
+
+<div class="progress">
+Encontrados: <span id="found">0</span> /
+<span id="total">0</span>
+</div>
+
+<div class="gallery" id="gallery"></div>
+
+<div id="victory">
+🏆 ¡Has encontrado todos los Pokémon! 🏆
+</div>
+
+<script>
+
+const pokemons = [
+    "pokemon1.jpg",
+    "pokemon2.jpg",
+    "pokemon3.jpg",
+    "pokemon4.jpg",
+    "pokemon5.jpg"
+];
+
+const gallery = document.getElementById("gallery");
+
+function saveProgress(){
+    const checks = [...document.querySelectorAll(".check")]
+        .map(c => c.checked);
+
+    localStorage.setItem(
+        "pokemon-progress",
+        JSON.stringify(checks)
+    );
+}
+
+function updateProgress(){
+
+    const checks =
+        document.querySelectorAll(".check");
+
+    const found =
+        document.querySelectorAll(".check:checked");
+
+    document.getElementById("found").textContent =
+        found.length;
+
+    document.getElementById("total").textContent =
+        checks.length;
+
+    if(
+        checks.length>0 &&
+        found.length===checks.length
+    ){
+
+        document.getElementById("victory").style.display="block";
+
+        confetti({
+            particleCount:200,
+            spread:180
+        });
+
+    }else{
+
+        document.getElementById("victory").style.display="none";
+    }
+}
+
+const saved =
+JSON.parse(
+    localStorage.getItem("pokemon-progress") || "[]"
+);
+
+pokemons.forEach((file,index)=>{
+
+    const card=document.createElement("div");
+
+    card.className="card";
+
+    card.innerHTML=`
+        <img src="${file}">
+        <h3>Pokémon ${index+1}</h3>
+
+        <label>
+            <input
+                type="checkbox"
+                class="check"
+                ${saved[index] ? "checked" : ""}
+            >
+            ✅ Encontrado
+        </label>
+    `;
+
+    gallery.appendChild(card);
+
+    const checkbox =
+        card.querySelector(".check");
+
+    if(checkbox.checked){
+        card.classList.add("found");
+    }
+
+    checkbox.addEventListener("change",()=>{
+
+        if(checkbox.checked){
+            card.classList.add("found");
+        }else{
+            card.classList.remove("found");
+        }
+
+        saveProgress();
+        updateProgress();
+    });
+
+});
+
+updateProgress();
+
+</script>
+
+</body>
+</html>
