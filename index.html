@@ -1,13 +1,18 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Caza Pokémon</title>
+<title>🎮 Caza Pokémon</title>
 
 <style>
+
+/* =========================
+   CONFIGURACIÓN GENERAL
+========================= */
 
 *{
     box-sizing:border-box;
@@ -17,113 +22,589 @@ body{
     font-family:'Segoe UI',sans-serif;
     margin:0;
     padding:16px;
-    background:linear-gradient(180deg,#ffde59,#ffcb05);
     min-height:100vh;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffde59 0%,
+            #ffcb05 100%
+        );
+
+    color:#333;
 }
+
+
+/* =========================
+   TÍTULO
+========================= */
 
 h1{
     text-align:center;
     color:#2a75bb;
-    margin-bottom:20px;
-    font-size:2rem;
+    margin:10px 0 20px;
+    font-size:2.2rem;
+
+    text-shadow:
+        2px 2px 0 white;
 }
 
-/* CONTADOR */
+
+/* =========================
+   CONTADOR
+========================= */
+
 #progress{
     background:white;
-    border-radius:16px;
-    padding:15px;
+    border-radius:20px;
+    padding:18px;
     text-align:center;
-    font-size:1.2rem;
+    font-size:1.25rem;
     font-weight:bold;
-    margin-bottom:20px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.12);
+
+    margin:0 auto 20px;
+
+    max-width:900px;
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,0.15);
 }
 
-/* GALERÍA */
-.gallery{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:18px;
+#counter{
+    color:#2a75bb;
+    font-size:1.5rem;
 }
 
-/* TARJETAS */
-.card{
-    background:white;
-    border-radius:22px;
+
+/* =========================
+   BARRA DE PROGRESO
+========================= */
+
+.progress-bar{
+    width:100%;
+    height:18px;
+
+    background:#e5e5e5;
+
+    border-radius:20px;
+
+    margin-top:12px;
+
     overflow:hidden;
-    box-shadow:0 8px 20px rgba(0,0,0,0.15);
-    transition:all .3s ease;
+}
+
+#progressFill{
+    width:0%;
+    height:100%;
+
+    background:#34c759;
+
+    border-radius:20px;
+
+    transition:
+        width .5s ease;
+}
+
+
+/* =========================
+   GALERÍA
+========================= */
+
+.gallery{
+
+    display:grid;
+
+    grid-template-columns:1fr;
+
+    gap:18px;
+
+    max-width:1200px;
+
+    margin:0 auto;
+}
+
+
+/* =========================
+   TARJETAS
+========================= */
+
+.card{
+
+    background:white;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,0.15);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+
+    position:relative;
 }
 
 .card:hover{
-    transform:translateY(-2px);
+
+    transform:translateY(-5px);
+
+    box-shadow:
+        0 12px 25px rgba(0,0,0,0.2);
 }
+
+
+/* TARJETA ENCONTRADA */
 
 .card.found{
+
     background:#dff9e4;
-    border:3px solid #34c759;
+
+    border:
+        3px solid #34c759;
+
+    transform:scale(1.01);
 }
+
+
+/* =========================
+   IMÁGENES
+========================= */
 
 .card img{
+
     width:100%;
+
     height:260px;
+
     object-fit:cover;
+
+    display:block;
+
+    transition:
+        transform .3s ease;
 }
 
+.card:hover img{
+
+    transform:scale(1.03);
+}
+
+
+/* =========================
+   CONTENIDO TARJETA
+========================= */
+
 .card-content{
+
     padding:15px;
 }
 
 .card h3{
-    margin:0 0 12px;
+
+    margin:
+        0 0 12px;
+
     color:#2a75bb;
+
     font-size:1.3rem;
 }
 
-/* CHECKBOX */
+
+/* =========================
+   CHECKBOX
+========================= */
+
 .checkbox-container{
+
     display:flex;
+
     align-items:center;
+
     gap:10px;
+
     cursor:pointer;
+
     font-size:1rem;
+
     font-weight:bold;
 }
 
 .checkbox-container input{
+
     width:22px;
+
     height:22px;
+
     cursor:pointer;
+
+    accent-color:#34c759;
 }
 
-/* MENSAJE FINAL */
+
+/* =========================
+   MENSAJE FINAL
+========================= */
+
 #victory{
+
     display:none;
-    margin-top:25px;
-    padding:20px;
+
+    max-width:700px;
+
+    margin:30px auto;
+
+    padding:30px 20px;
+
     background:white;
-    border-radius:20px;
+
+    border-radius:25px;
+
     text-align:center;
+
     color:#34c759;
+
     font-size:1.7rem;
+
     font-weight:bold;
-    box-shadow:0 4px 15px rgba(0,0,0,0.15);
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,0.2);
+
+    animation:
+        victoria .8s ease;
 }
 
-/* RESPONSIVE */
+#victory small{
+
+    display:block;
+
+    margin-top:12px;
+
+    color:#555;
+
+    font-size:1rem;
+}
+
+
+/* =========================
+   BOTÓN REINICIAR
+========================= */
+
+#resetButton{
+
+    display:block;
+
+    margin:20px auto 30px;
+
+    border:none;
+
+    border-radius:15px;
+
+    padding:13px 25px;
+
+    font-size:1rem;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    background:#2a75bb;
+
+    color:white;
+
+    box-shadow:
+        0 5px 10px rgba(0,0,0,0.15);
+
+    transition:.2s;
+}
+
+#resetButton:hover{
+
+    transform:scale(1.05);
+
+}
+
+
+/* =========================
+   POPUP
+========================= */
+
+.popup-overlay{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background:
+        rgba(0,0,0,0.70);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:20px;
+
+    z-index:9999;
+
+    animation:
+        aparecer .4s ease;
+}
+
+
+.popup{
+
+    background:white;
+
+    width:100%;
+
+    max-width:450px;
+
+    padding:30px 25px;
+
+    border-radius:28px;
+
+    text-align:center;
+
+    box-shadow:
+        0 15px 50px rgba(0,0,0,0.35);
+
+    animation:
+        popupEntrada .5s ease;
+}
+
+
+/* ICONO POPUP */
+
+.pokeball{
+
+    font-size:4rem;
+
+    animation:
+        rebote 1s infinite alternate;
+}
+
+
+.popup h2{
+
+    color:#2a75bb;
+
+    font-size:2rem;
+
+    margin:
+        10px 0 15px;
+}
+
+
+.popup p{
+
+    color:#444;
+
+    font-size:1.1rem;
+
+    line-height:1.6;
+
+    margin-bottom:25px;
+}
+
+
+/* BOTÓN EMPEZAR */
+
+.start-button{
+
+    width:100%;
+
+    border:none;
+
+    border-radius:15px;
+
+    padding:16px;
+
+    font-size:1.1rem;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    background:#ff3b30;
+
+    color:white;
+
+    transition:.2s;
+
+    box-shadow:
+        0 5px 10px rgba(0,0,0,0.15);
+}
+
+.start-button:hover{
+
+    transform:scale(1.03);
+}
+
+
+/* =========================
+   AVISO DE POKÉMON ENCONTRADO
+========================= */
+
+#foundMessage{
+
+    position:fixed;
+
+    top:20px;
+
+    left:50%;
+
+    transform:
+        translateX(-50%)
+        translateY(-120px);
+
+    background:#34c759;
+
+    color:white;
+
+    padding:14px 25px;
+
+    border-radius:30px;
+
+    font-weight:bold;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.25);
+
+    z-index:10000;
+
+    transition:
+        transform .4s ease;
+}
+
+#foundMessage.show{
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+}
+
+
+/* =========================
+   CONFETI
+========================= */
+
+.confetti{
+
+    position:fixed;
+
+    width:10px;
+    height:18px;
+
+    top:-20px;
+
+    z-index:10001;
+
+    animation:
+        caer 3s linear forwards;
+}
+
+
+/* =========================
+   ANIMACIONES
+========================= */
+
+@keyframes aparecer{
+
+    from{
+        opacity:0;
+    }
+
+    to{
+        opacity:1;
+    }
+}
+
+
+@keyframes popupEntrada{
+
+    from{
+        opacity:0;
+        transform:scale(.7);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+
+@keyframes rebote{
+
+    from{
+        transform:translateY(0);
+    }
+
+    to{
+        transform:translateY(-10px);
+    }
+}
+
+
+@keyframes victoria{
+
+    from{
+        opacity:0;
+        transform:scale(.7);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+
+@keyframes caer{
+
+    0%{
+        transform:
+            translateY(0)
+            rotate(0deg);
+    }
+
+    100%{
+        transform:
+            translateY(110vh)
+            rotate(720deg);
+    }
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
 @media(min-width:700px){
 
     .gallery{
-        grid-template-columns:repeat(2,1fr);
+
+        grid-template-columns:
+            repeat(2,1fr);
     }
 
 }
 
+
 @media(min-width:1000px){
 
     .gallery{
-        grid-template-columns:repeat(3,1fr);
+
+        grid-template-columns:
+            repeat(3,1fr);
     }
 
 }
@@ -132,129 +613,599 @@ h1{
 
 </head>
 
+
 <body>
 
-<h1>🔍 Caza Pokémon 🔍</h1>
+
+<!-- =========================
+     POPUP DE BIENVENIDA
+========================= -->
+
+<div
+    id="welcomePopup"
+    class="popup-overlay"
+>
+
+    <div class="popup">
+
+        <div class="pokeball">
+            ⚡
+        </div>
+
+        <h2>
+            🎉 ¡Bienvenido!
+        </h2>
+
+        <p>
+            Bienvenido a uno de los juegos
+            que debes llevar a cabo durante
+            el fin de semana.
+        </p>
+
+        <button
+            class="start-button"
+            onclick="closeWelcome()"
+        >
+            🚀 ¡Empezar!
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     MENSAJE POKÉMON ENCONTRADO
+========================= -->
+
+<div id="foundMessage">
+    ⚡ ¡Pokémon encontrado!
+</div>
+
+
+<!-- =========================
+     CONTENIDO PRINCIPAL
+========================= -->
+
+<h1>
+    🔍 Caza Pokémon 🔍
+</h1>
+
 
 <!-- CONTADOR -->
+
 <div id="progress">
-    Pokémon encontrados: <span id="counter">0</span> / 30
+
+    Pokémon encontrados:
+
+    <span id="counter">
+        0
+    </span>
+
+    / 30
+
+    <div class="progress-bar">
+
+        <div
+            id="progressFill"
+        ></div>
+
+    </div>
+
 </div>
 
-<!-- AQUÍ SE CREARÁN LOS POKÉMON -->
-<div class="gallery" id="gallery"></div>
+
+<!-- GALERÍA -->
+
+<div
+    class="gallery"
+    id="gallery"
+></div>
+
 
 <!-- MENSAJE FINAL -->
+
 <div id="victory">
-    🎉 ¡ENHORABUENA! 🎉<br>
-    ¡Has encontrado los 30 Pokémon! 🏆
+
+    🏆 ¡ENHORABUENA! 🏆
+
+    <br>
+
+    ¡Has encontrado los
+    30 Pokémon! 🎉
+
+    <small>
+        ¡Eres un auténtico Maestro Pokémon! ⚡
+    </small>
+
 </div>
+
+
+<!-- BOTÓN REINICIAR -->
+
+<button
+    id="resetButton"
+    onclick="resetGame()"
+>
+    🔄 Reiniciar partida
+</button>
 
 
 <script>
 
-// Número total de Pokémon
+
+/* =========================
+   CONFIGURACIÓN
+========================= */
+
 const totalPokemon = 30;
 
-// Contador de Pokémon encontrados
 let encontrados = 0;
 
-// Elementos HTML
-const gallery = document.getElementById("gallery");
-const counter = document.getElementById("counter");
-const victory = document.getElementById("victory");
+
+/* =========================
+   ELEMENTOS HTML
+========================= */
+
+const gallery =
+    document.getElementById("gallery");
+
+const counter =
+    document.getElementById("counter");
+
+const progressFill =
+    document.getElementById("progressFill");
+
+const victory =
+    document.getElementById("victory");
+
+const foundMessage =
+    document.getElementById("foundMessage");
 
 
-// Crear los 30 Pokémon
-for(let i = 1; i <= totalPokemon; i++){
+/* =========================
+   CREAR LOS 30 POKÉMON
+========================= */
 
-    // Crear tarjeta
-    const card = document.createElement("div");
+for(
+    let i = 1;
+    i <= totalPokemon;
+    i++
+){
+
+    /* TARJETA */
+
+    const card =
+        document.createElement("div");
+
     card.classList.add("card");
 
-    // Crear imagen
-    const img = document.createElement("img");
 
-    // Las imágenes deben llamarse:
-    // pokemon1.jpg
-    // pokemon2.jpg
-    // ...
-    // pokemon30.jpg
-    img.src = `pokemon${i}.jpg`;
-    img.alt = `Pokémon ${i}`;
+    /* IMAGEN */
 
-    // Contenido de la tarjeta
-    const content = document.createElement("div");
-    content.classList.add("card-content");
+    const img =
+        document.createElement("img");
 
-    // Nombre
-    const title = document.createElement("h3");
-    title.textContent = `Pokémon ${i}`;
+    img.src =
+        `pokemon${i}.jpg`;
 
-    // Contenedor del checkbox
-    const label = document.createElement("label");
-    label.classList.add("checkbox-container");
-
-    // Checkbox
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-
-    // Texto
-    const text = document.createTextNode("Encontrado");
-
-    // Añadir elementos
-    label.appendChild(checkbox);
-    label.appendChild(text);
-
-    content.appendChild(title);
-    content.appendChild(label);
-
-    card.appendChild(img);
-    card.appendChild(content);
-
-    gallery.appendChild(card);
+    img.alt =
+        `Pokémon ${i}`;
 
 
-    // Detectar cuando se marca/desmarca
-    checkbox.addEventListener("change", function(){
+    /* CONTENIDO */
 
-        if(this.checked){
+    const content =
+        document.createElement("div");
 
-            // Pokémon encontrado
-            encontrados++;
+    content.classList.add(
+        "card-content"
+    );
 
-            card.classList.add("found");
 
-        }else{
+    /* NOMBRE */
 
-            // Pokémon dejado de marcar
-            encontrados--;
+    const title =
+        document.createElement("h3");
 
-            card.classList.remove("found");
+    title.textContent =
+        `Pokémon ${i}`;
+
+
+    /* LABEL */
+
+    const label =
+        document.createElement("label");
+
+    label.classList.add(
+        "checkbox-container"
+    );
+
+
+    /* CHECKBOX */
+
+    const checkbox =
+        document.createElement("input");
+
+    checkbox.type =
+        "checkbox";
+
+    checkbox.dataset.id =
+        i;
+
+
+    /* TEXTO */
+
+    const text =
+        document.createTextNode(
+            "Encontrado"
+        );
+
+
+    /* CONSTRUIR */
+
+    label.appendChild(
+        checkbox
+    );
+
+    label.appendChild(
+        text
+    );
+
+    content.appendChild(
+        title
+    );
+
+    content.appendChild(
+        label
+    );
+
+    card.appendChild(
+        img
+    );
+
+    card.appendChild(
+        content
+    );
+
+    gallery.appendChild(
+        card
+    );
+
+
+    /* =========================
+       EVENTO CHECKBOX
+    ========================= */
+
+    checkbox.addEventListener(
+        "change",
+        function(){
+
+            if(this.checked){
+
+                encontrados++;
+
+                card.classList.add(
+                    "found"
+                );
+
+                mostrarEncontrado();
+
+            }else{
+
+                encontrados--;
+
+                card.classList.remove(
+                    "found"
+                );
+
+            }
+
+
+            actualizarProgreso();
+
+            guardarProgreso();
 
         }
-
-        // Actualizar contador
-        counter.textContent = encontrados;
-
-
-        // Comprobar si se han encontrado todos
-        if(encontrados === totalPokemon){
-
-            victory.style.display = "block";
-
-        }else{
-
-            victory.style.display = "none";
-
-        }
-
-    });
+    );
 
 }
 
+
+/* =========================
+   ACTUALIZAR CONTADOR
+========================= */
+
+function actualizarProgreso(){
+
+    counter.textContent =
+        encontrados;
+
+
+    const porcentaje =
+        (encontrados / totalPokemon)
+        * 100;
+
+
+    progressFill.style.width =
+        porcentaje + "%";
+
+
+    /* VICTORIA */
+
+    if(
+        encontrados === totalPokemon
+    ){
+
+        victory.style.display =
+            "block";
+
+        lanzarConfeti();
+
+    }else{
+
+        victory.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =========================
+   MENSAJE ENCONTRADO
+========================= */
+
+function mostrarEncontrado(){
+
+    foundMessage.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        function(){
+
+            foundMessage.classList.remove(
+                "show"
+            );
+
+        },
+        1200
+    );
+
+}
+
+
+/* =========================
+   GUARDAR PARTIDA
+========================= */
+
+function guardarProgreso(){
+
+    const encontradosIds = [];
+
+
+    document
+        .querySelectorAll(
+            'input[type="checkbox"]'
+        )
+        .forEach(
+            checkbox => {
+
+                if(
+                    checkbox.checked
+                ){
+
+                    encontradosIds.push(
+                        checkbox.dataset.id
+                    );
+
+                }
+
+            }
+        );
+
+
+    localStorage.setItem(
+        "pokemonEncontrados",
+        JSON.stringify(
+            encontradosIds
+        )
+    );
+
+}
+
+
+/* =========================
+   CARGAR PARTIDA
+========================= */
+
+function cargarProgreso(){
+
+    const guardados =
+        JSON.parse(
+            localStorage.getItem(
+                "pokemonEncontrados"
+            )
+        );
+
+
+    if(!guardados){
+        return;
+    }
+
+
+    guardados.forEach(
+        id => {
+
+            const checkbox =
+                document.querySelector(
+                    `input[data-id="${id}"]`
+                );
+
+
+            if(checkbox){
+
+                checkbox.checked =
+                    true;
+
+                checkbox
+                    .closest(".card")
+                    .classList.add(
+                        "found"
+                    );
+
+                encontrados++;
+
+            }
+
+        }
+    );
+
+
+    actualizarProgreso();
+
+}
+
+
+/* =========================
+   POPUP
+========================= */
+
+function closeWelcome(){
+
+    const popup =
+        document.getElementById(
+            "welcomePopup"
+        );
+
+
+    popup.style.display =
+        "none";
+
+}
+
+
+/* =========================
+   REINICIAR PARTIDA
+========================= */
+
+function resetGame(){
+
+    const confirmar =
+        confirm(
+            "¿Seguro que quieres reiniciar la partida?"
+        );
+
+
+    if(!confirmar){
+        return;
+    }
+
+
+    localStorage.removeItem(
+        "pokemonEncontrados"
+    );
+
+
+    document
+        .querySelectorAll(
+            'input[type="checkbox"]'
+        )
+        .forEach(
+            checkbox => {
+
+                checkbox.checked =
+                    false;
+
+                checkbox
+                    .closest(".card")
+                    .classList.remove(
+                        "found"
+                    );
+
+            }
+        );
+
+
+    encontrados = 0;
+
+    actualizarProgreso();
+
+}
+
+
+/* =========================
+   CONFETI
+========================= */
+
+function lanzarConfeti(){
+
+    for(
+        let i = 0;
+        i < 80;
+        i++
+    ){
+
+        const confeti =
+            document.createElement(
+                "div"
+            );
+
+        confeti.classList.add(
+            "confetti"
+        );
+
+
+        confeti.style.left =
+            Math.random() * 100 + "%";
+
+
+        confeti.style.animationDelay =
+            Math.random() * 1.5 + "s";
+
+
+        confeti.style.backgroundColor =
+            [
+                "#ff3b30",
+                "#ffcb05",
+                "#2a75bb",
+                "#34c759",
+                "#af52de"
+            ][
+                Math.floor(
+                    Math.random() * 5
+                )
+            ];
+
+
+        document.body.appendChild(
+            confeti
+        );
+
+
+        setTimeout(
+            () => {
+                confeti.remove();
+            },
+            4500
+        );
+
+    }
+
+}
+
+
+/* =========================
+   INICIAR
+========================= */
+
+cargarProgreso();
+
 </script>
 
+
 </body>
+
 </html>
-```
