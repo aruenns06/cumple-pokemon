@@ -1,7 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Caza Pokémon</title>
 
 <style>
@@ -25,19 +28,7 @@ h1{
     font-size:2rem;
 }
 
-#uploadZone{
-    text-align:center;
-    margin-bottom:20px;
-}
-
-#uploadZone input{
-    width:100%;
-    max-width:350px;
-    padding:12px;
-    border-radius:12px;
-    background:white;
-}
-
+/* CONTADOR */
 #progress{
     background:white;
     border-radius:16px;
@@ -49,12 +40,14 @@ h1{
     box-shadow:0 4px 12px rgba(0,0,0,0.12);
 }
 
+/* GALERÍA */
 .gallery{
     display:grid;
     grid-template-columns:1fr;
     gap:18px;
 }
 
+/* TARJETAS */
 .card{
     background:white;
     border-radius:22px;
@@ -88,27 +81,23 @@ h1{
     font-size:1.3rem;
 }
 
-button{
-    width:100%;
-    border:none;
-    border-radius:14px;
-    padding:15px;
+/* CHECKBOX */
+.checkbox-container{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
     font-size:1rem;
     font-weight:bold;
+}
+
+.checkbox-container input{
+    width:22px;
+    height:22px;
     cursor:pointer;
-    transition:.2s;
-    background:#ff3b30;
-    color:white;
 }
 
-button:hover{
-    transform:scale(1.02);
-}
-
-button.found{
-    background:#34c759;
-}
-
+/* MENSAJE FINAL */
 #victory{
     display:none;
     margin-top:25px;
@@ -122,6 +111,7 @@ button.found{
     box-shadow:0 4px 15px rgba(0,0,0,0.15);
 }
 
+/* RESPONSIVE */
 @media(min-width:700px){
 
     .gallery{
@@ -140,25 +130,131 @@ button.found{
 
 </style>
 
-
 </head>
+
 <body>
 
 <h1>🔍 Caza Pokémon 🔍</h1>
 
-<div class="card">
-    <img src="pokemon1.jpg">
-    <br><br>
-    <input type="checkbox">
-    Encontrado
+<!-- CONTADOR -->
+<div id="progress">
+    Pokémon encontrados: <span id="counter">0</span> / 30
 </div>
 
-<div class="card">
-    <img src="pokemon2.jpg">
-    <br><br>
-    <input type="checkbox">
-    Encontrado
+<!-- AQUÍ SE CREARÁN LOS POKÉMON -->
+<div class="gallery" id="gallery"></div>
+
+<!-- MENSAJE FINAL -->
+<div id="victory">
+    🎉 ¡ENHORABUENA! 🎉<br>
+    ¡Has encontrado los 30 Pokémon! 🏆
 </div>
+
+
+<script>
+
+// Número total de Pokémon
+const totalPokemon = 30;
+
+// Contador de Pokémon encontrados
+let encontrados = 0;
+
+// Elementos HTML
+const gallery = document.getElementById("gallery");
+const counter = document.getElementById("counter");
+const victory = document.getElementById("victory");
+
+
+// Crear los 30 Pokémon
+for(let i = 1; i <= totalPokemon; i++){
+
+    // Crear tarjeta
+    const card = document.createElement("div");
+    card.classList.add("card");
+
+    // Crear imagen
+    const img = document.createElement("img");
+
+    // Las imágenes deben llamarse:
+    // pokemon1.jpg
+    // pokemon2.jpg
+    // ...
+    // pokemon30.jpg
+    img.src = `pokemon${i}.jpg`;
+    img.alt = `Pokémon ${i}`;
+
+    // Contenido de la tarjeta
+    const content = document.createElement("div");
+    content.classList.add("card-content");
+
+    // Nombre
+    const title = document.createElement("h3");
+    title.textContent = `Pokémon ${i}`;
+
+    // Contenedor del checkbox
+    const label = document.createElement("label");
+    label.classList.add("checkbox-container");
+
+    // Checkbox
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+
+    // Texto
+    const text = document.createTextNode("Encontrado");
+
+    // Añadir elementos
+    label.appendChild(checkbox);
+    label.appendChild(text);
+
+    content.appendChild(title);
+    content.appendChild(label);
+
+    card.appendChild(img);
+    card.appendChild(content);
+
+    gallery.appendChild(card);
+
+
+    // Detectar cuando se marca/desmarca
+    checkbox.addEventListener("change", function(){
+
+        if(this.checked){
+
+            // Pokémon encontrado
+            encontrados++;
+
+            card.classList.add("found");
+
+        }else{
+
+            // Pokémon dejado de marcar
+            encontrados--;
+
+            card.classList.remove("found");
+
+        }
+
+        // Actualizar contador
+        counter.textContent = encontrados;
+
+
+        // Comprobar si se han encontrado todos
+        if(encontrados === totalPokemon){
+
+            victory.style.display = "block";
+
+        }else{
+
+            victory.style.display = "none";
+
+        }
+
+    });
+
+}
+
+</script>
 
 </body>
 </html>
+```
