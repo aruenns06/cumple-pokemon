@@ -2,282 +2,44 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Caza Pokémon</title>
 
-<script src="https://cdn.jsdelivr.net/npm/canvas.3/dist/confetti.browser.min.jsscript>
-
 <style>
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
 body{
-    font-family:Segoe UI, Arial, sans-serif;
-    background:linear-gradient(180deg,#ffde59,#ffcb05);
-    min-height:100vh;
-    padding:15px;
-}
-
-h1{
-    text-align:center;
-    color:#2A75BB;
-    margin-bottom:20px;
-}
-
-#uploadZone{
-    background:white;
-    border-radius:20px;
+    font-family:Arial, sans-serif;
     padding:20px;
-    text-align:center;
-    box-shadow:0 4px 15px rgba(0,0,0,0.15);
-    margin-bottom:20px;
-}
-
-input[type=file]{
-    width:100%;
-}
-
-#progress{
-    background:white;
-    border-radius:20px;
-    padding:15px;
-    text-align:center;
-    font-size:22px;
-    font-weight:bold;
-    margin-bottom:20px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.15);
-}
-
-.gallery{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:20px;
 }
 
 .card{
-    background:white;
-    border-radius:20px;
-    overflow:hidden;
-    box-shadow:0 6px 20px rgba(0,0,0,0.15);
-    transition:0.3s;
+    border:1px solid #ccc;
+    padding:10px;
+    margin-bottom:20px;
+    width:300px;
 }
 
-.card.found{
-    border:4px solid #2ecc71;
-    background:#eafaf1;
+img{
+    width:300px;
 }
-
-.card img{
-    width:100%;
-    height:260px;
-    object-fit:cover;
-}
-
-.card-content{
-    padding:15px;
-}
-
-.card h3{
-    margin-bottom:15px;
-    color:#2A75BB;
-}
-
-button{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:12px;
-    background:#ff3b30;
-    color:white;
-    font-size:16px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-button.found{
-    background:#2ecc71;
-}
-
-#victory{
-    display:none;
-    margin-top:25px;
-    background:white;
-    border-radius:20px;
-    padding:25px;
-    text-align:center;
-    font-size:28px;
-    color:#2ecc71;
-    font-weight:bold;
-    box-shadow:0 4px 15px rgba(0,0,0,0.15);
-}
-
-@media(min-width:700px){
-
-    .gallery{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-}
-
-@media(min-width:1100px){
-
-    .gallery{
-        grid-template-columns:repeat(3,1fr);
-    }
-
-}
-
 </style>
-</head>
 
+</head>
 <body>
 
-<h1>🎯 Caza Pokémon 🎯</h1>
+<h1>🔍 Caza Pokémon 🔍</h1>
 
-<div id="uploadZone">
-    <h3>Sube las fotos de los Pokémon escondidos</h3>
-    <br>
-    <input type="file" id="images" multiple accept="image/*">
+<div class="card">
+    <img src="pokemon1.jpg">
+    <br><br>
+    <input type="checkbox">
+    Encontrado
 </div>
 
-<div id="progress">
-0 / 0 encontrados
+<div class="card">
+    <img src="pokemon2.jpg">
+    <br><br>
+    <input type="checkbox">
+    Encontrado
 </div>
-
-<div class="gallery" id="gallery"></div>
-
-<div id="victory">
-🏆 ¡ENHORABUENA! 🏆
-<br><br>
-Has encontrado todos los Pokémon.
-</div>
-
-<script>
-
-const input = document.getElementById("images");
-const gallery = document.getElementById("gallery");
-
-let total = 0;
-let encontrados = 0;
-let confetiLanzado = false;
-
-function actualizarProgreso(){
-
-    document.getElementById("progress").innerText =
-        encontrados + " / " + total + " encontrados";
-
-    if(total > 0 &&
-       encontrados === total &&
-       !confetiLanzado){
-
-        confetiLanzado = true;
-
-        document.getElementById("victory").style.display="block";
-
-        confetti({
-            particleCount:300,
-            spread:180,
-            origin:{y:0.6}
-        });
-
-        setTimeout(()=>{
-            confetti({
-                particleCount:200,
-                spread:120
-            });
-        },500);
-
-        setTimeout(()=>{
-            confetti({
-                particleCount:200,
-                spread:180
-            });
-        },1000);
-    }
-}
-
-input.addEventListener("change",(e)=>{
-
-    gallery.innerHTML="";
-    encontrados=0;
-    confetiLanzado=false;
-
-    document.getElementById("victory").style.display="none";
-
-    const files=[...e.target.files];
-
-    total=files.length;
-
-    files.forEach((file,index)=>{
-
-        const reader=new FileReader();
-
-        reader.onload=function(event){
-
-            const card=document.createElement("div");
-
-            card.className="card";
-
-            card.innerHTML=`
-                <img src="${event.target.result}">
-                <div class="card-content">
-                    <h3>⚡ Pokémon ${index+1}</h3>
-                    <button>✅ Marcar como encontrado</button>
-                </div>
-            `;
-
-            let encontrado=false;
-
-            const boton=card.querySelector("button");
-
-            boton.addEventListener("click",()=>{
-
-                encontrado=!encontrado;
-
-                if(encontrado){
-
-                    encontrados++;
-
-                    card.classList.add("found");
-
-                    boton.classList.add("found");
-
-                    boton.innerText="✔ Encontrado";
-
-                }else{
-
-                    encontrados--;
-
-                    card.classList.remove("found");
-
-                    boton.classList.remove("found");
-
-                    boton.innerText="✅ Marcar como encontrado";
-
-                }
-
-                actualizarProgreso();
-
-            });
-
-            gallery.appendChild(card);
-
-        };
-
-        reader.readAsDataURL(file);
-
-    });
-
-    actualizarProgreso();
-
-});
-
-</script>
 
 </body>
 </html>
