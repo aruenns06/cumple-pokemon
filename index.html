@@ -287,6 +287,22 @@ h1{
     font-size:1rem;
 }
 
+#victory .king-image{
+
+    display:block;
+
+    width:100%;
+    max-width:350px;
+
+    height:auto;
+
+    margin:20px auto;
+
+    border-radius:20px;
+
+    box-shadow:
+        0 6px 15px rgba(0,0,0,0.2);
+}
 
 /* =========================
    BOTÓN REINICIAR
@@ -935,25 +951,35 @@ function actualizarProgreso(){
         porcentaje + "%";
 
 
-    /* VICTORIA */
+      
+   /* VICTORIA */
 
-    if(
-        encontrados === totalPokemon
-    ){
-
-        victory.style.display =
-            "block";
-
-        lanzarConfeti();
-
-    }else{
-
-        victory.style.display =
-            "none";
-
-    }
-
-}
+   if(
+       encontrados === totalPokemon
+   ){
+   
+       victory.style.display =
+           "block";
+   
+       lanzarConfeti();
+   
+       // Ir automáticamente al mensaje de victoria
+       setTimeout(() => {
+   
+           victory.scrollIntoView({
+               behavior: "smooth",
+               block: "center"
+           });
+   
+       }, 300);
+   
+   }else{
+   
+       victory.style.display =
+           "none";
+   
+   }
+ }
 
 
 /* =========================
